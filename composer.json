@@ -1,0 +1,38 @@
+{
+    "name": "anax/weather",
+    "type": "library",
+    "description": "Anax weather module.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Elena Perers",
+            "email": "elena.perers@noreply.se",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/pererselena/anax-weather-module/issues"
+    },
+    "autoload": {
+        "psr-4": {
+            "Anax\\": "src/"
+        }
+    },
+    "minimum-stability": "beta",
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.2",
+        "anax/commons": "^2.0.0@beta",
+        "anax/anax-cli": "^1.2"
+    },
+    "require-dev": {
+        "phpmetrics/phpmetrics": "^2",
+        "phpunit/phpunit": "^7",
+        "anax/anax-lite": "^1.0.24",
+        "anax/cache": "^2.0.0-beta.5",
+        "anax/request": "^2.0.2",
+        "anax/page": "^2.0.0-beta.1",
+        "anax/view": "^2.0.2",
+        "anax/url": "^2.0.0-alpha.1"
+    }
+}
