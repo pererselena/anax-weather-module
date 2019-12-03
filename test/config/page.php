@@ -10,7 +10,7 @@ return [
     // all the other views are rendered.
     "layout" => [
         "region" => "layout",
-        "template" => "anax/v2/layout/dbwebb_se",
+        "template" => "anax/v2/layout/default",
         "data" => [
             "baseTitle" => " | ramverk1",
             "bodyClass" => null,
@@ -29,59 +29,16 @@ return [
     // These views are always loaded into the collection of views.
     "views" => [
         [
-            "region" => "header-col-1",
-            "template" => "anax/v2/header/site_logo_text",
-            "data" => [
-                "homeLink"      => "",
-                "siteLogoText"  => "ramverk1",
-                "siteLogoTextIcon" => "image/theme/leaf_40x40.png",
-                "siteLogoTextIconAlt" => "Löv-bild",
-            ],
-        ],
-        [
-            "region" => "header-col-2",
-            "template" => "anax/v2/navbar/navbar_submenus",
-            "data" => [
-                "navbarConfig" => require __DIR__ . "/navbar/header.php",
-            ],
-        ],
-        [
-            "region" => "header-col-3",
-            "template" => "anax/v2/navbar/responsive_submenus",
-            "data" => [
-                "navbarConfig" => require __DIR__ . "/navbar/responsive.php",
-            ],
+            "region" => "header",
+            "template" => "anax/v2/header/default",
+            "sort" => -1,
+            "data" => null,
         ],
         [
             "region" => "footer",
-            "template" => "anax/v2/columns/multiple_columns",
-            "data" => [
-                "class"  => "footer-column",
-                "columns" => [
-                    [
-                        "template" => "anax/v2/block/default",
-                        "contentRoute" => "block/footer-col-1",
-                    ],
-                    [
-                        "template" => "anax/v2/block/default",
-                        "contentRoute" => "block/footer-col-2",
-                    ],
-                    [
-                        "template" => "anax/v2/block/default",
-                        "contentRoute" => "block/footer-col-3",
-                    ]
-                ]
-            ],
-            "sort" => 1
-        ],
-        [
-            "region" => "footer",
-            "template" => "anax/v2/block/default",
-            "data" => [
-                "class"  => "site-footer",
-                "contentRoute" => "block/footer",
-            ],
-            "sort" => 2
+            "template" => "anax/v2/footer/default",
+            "data" => null,
+            "sort" => -1
         ],
     ],
 ];
