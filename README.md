@@ -26,7 +26,7 @@ composer require anax/anax-weather-module
 The module supports a postprocessing installation script, to be used with Anax scaffolding. The script executes the default installation.
 
 ```text
-bash vendor/anax/anax-weather-module/.anax/scaffold/postprocess.d/700_anax-weather-module.bash
+bash vendor/anax/anax-weather-module/.anax/scaffold/postprocess.d/300_weather.bash
 ```
 
 The postprocessing script should be run after the `composer require` is done.
