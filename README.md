@@ -51,6 +51,10 @@ rsync -av vendor/anax/anax-weather-module/view ./
 rsync -av vendor/anax/anax-weather-module/test ./
 ```
 
+```
+rsync -av vendor/anax/anax-weather-module/weather ./htdocs/img/
+```
+
 The anax-weather-module is now active on the route `weather/`. According to the API documentation you may try it out on the route `json_weather` to get a json response.
 
 ### API keys
