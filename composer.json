@@ -1,5 +1,5 @@
 {
-    "name": "anax/anax-weather-module",
+    "name": "elpr/anax-weather-module",
     "type": "library",
     "description": "Anax weather module.",
     "license": "MIT",
