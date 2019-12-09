@@ -9,7 +9,7 @@ return [
             "shared" => true,
             "callback" => function () {
                 $obj = new \Anax\CurlModel\CurlModel();
-                $obj->setTestMode(false);
+                $obj->setTestMode(true);
                 return $obj;
             }
         ],

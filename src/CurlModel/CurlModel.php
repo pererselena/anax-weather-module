@@ -11,6 +11,7 @@ namespace Anax\CurlModel;
  */
 class CurlModel
 {
+    protected $testMode;
 
     /**
      * Fetch data.
@@ -20,15 +21,44 @@ class CurlModel
 
     public function getData(string $link)
     {
-        $curl = curl_init();
+        if ($this->testMode == true) {
+            $file = preg_replace("/[^[:alnum:][:space:]]/u", '', $link);
+            $cache = ANAX_INSTALL_PATH . "/test/cache/$file.cahce";
+            $forceRefresh = false;
+            $refresh = 60 * 60 * 3;
+            if (!is_file(($cache))) {
+                $handle = fopen($cache, 'wb');
+                fclose($handle);
+                $forceRefresh = true;
+            }
+            if ($forceRefresh || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+                $curl = curl_init();
 
-        curl_setopt($curl, CURLOPT_URL, $link);
+                curl_setopt($curl, CURLOPT_URL, $link);
 
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        $data = curl_exec($curl);
-        curl_close($curl);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+                $data = curl_exec($curl);
+                curl_close($curl);
 
-        return json_decode($data, true);
+                $handle = fopen($cache, 'wb');
+                $jsonCache = $data;
+                fwrite($handle, $jsonCache);
+                fclose($handle);
+            } else {
+                $jsonCache = file_get_contents($cache);
+            }
+            return json_decode($jsonCache, true);
+        } else {
+            $curl = curl_init();
+
+            curl_setopt($curl, CURLOPT_URL, $link);
+
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            $data = curl_exec($curl);
+            curl_close($curl);
+
+            return json_decode($data, true);
+        }
     }
 
     /**
@@ -76,5 +106,15 @@ class CurlModel
         }
 
         return $outputArr;
+    }
+
+    /**
+     * Set test mode.
+     *
+     */
+
+    public function setTestMode(bool $mode)
+    {
+        $this->testMode = $mode;
     }
 }
