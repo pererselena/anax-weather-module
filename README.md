@@ -1,7 +1,10 @@
 # anax-weather-module
 
 [![Build Status](https://travis-ci.org/pererselena/anax-weather-module.svg?branch=master)](https://travis-ci.org/pererselena/anax-weather-module)
-
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/?branch=master)
+[![Build Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/build.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/build-status/master)
+[![Code Intelligence Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 
 Table of content
 ------------------------------------
