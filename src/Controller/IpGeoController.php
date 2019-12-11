@@ -22,7 +22,9 @@ use Anax\IpGeo\IpGeo;
 class IpGeoController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
+    protected $ipGeo;
+    protected $request;
+    protected $response;
 
 
     /**
@@ -38,7 +40,9 @@ class IpGeoController implements ContainerInjectableInterface
     public function initialize(): void
     {
         // Use to initialise member variables.
-        $this->ip = new IpGeo();
+        $this->ipGeo = new IpGeo();
+        $this->request = $this->di->get("request");
+        $this->response = $this->di->get("response");
     }
 
 
@@ -55,9 +59,9 @@ class IpGeoController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $title = "Ip Geolokalisering";
-        $ipAddress = $this->di->request->getGet("ip");
+        $ipAddress = $this->request->getGet("ip");
         if ($ipAddress) {
-            $ipGeoInfo = $this->ip->getLocation($ipAddress);
+            $ipGeoInfo = $this->ipGeo->getLocation($ipAddress);
         } else {
             $req = $this->di->get("request");
             if (!empty($req->getServer("HTTP_CLIENT_IP"))) {
@@ -67,7 +71,7 @@ class IpGeoController implements ContainerInjectableInterface
             } else {
                 $ipAddress = $req->getServer("REMOTE_ADDR");
             }
-            $ipGeoInfo = $this->ip->getLocation($ipAddress);
+            $ipGeoInfo = $this->ipGeo->getLocation($ipAddress);
         }
 
 
@@ -89,8 +93,8 @@ class IpGeoController implements ContainerInjectableInterface
      */
     public function indexActionPost(): object
     {
-        $ipAddress = $this->di->request->getPost("ipAddress");
+        $ipAddress = $this->request->getPost("ipAddress");
 
-        return $this->di->response->redirect("geo_ip?ip=$ipAddress");
+        return $this->response->redirect("geo_ip?ip=$ipAddress");
     }
 }
