@@ -42,6 +42,9 @@ class CurlModel
             } else {
                 $jsonCache = file_get_contents($cache);
             }
+            if (gettype($jsonCache) == "array") {
+                $jsonCache = $jsonCache[0];
+            }
             return json_decode($jsonCache, true);
         } else {
             return json_decode($this->singleFetch($link), true);
