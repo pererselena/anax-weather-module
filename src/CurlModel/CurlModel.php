@@ -56,7 +56,7 @@ class CurlModel
         $curl = curl_init();
 
         if ($curl == false) {
-            return array();
+            return "";
         }
         curl_setopt($curl, CURLOPT_URL, $link);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -95,7 +95,8 @@ class CurlModel
                 file_put_contents($cache, $outputArr);
             } else {
                 $jsonCache = file_get_contents($cache);
-                array_push($outputArr, json_decode($jsonCache[0], true));
+                $jsonCache = json_decode($jsonCache, true)[1];
+                array_push($outputArr, $jsonCache);
             }
         } else {
             $outputArr = $this->fetchMultiData($links);
