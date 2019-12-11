@@ -38,15 +38,7 @@ class CurlModel
             }
             if ($forceRefresh === true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $jsonCache = $this->singleFetch($link);
-                $handle = fopen($cache, 'wb');
-                if ($handle === false) {
-                    return array();
-                }
-                if (gettype($jsonCache) == array()) {
-                    $jsonCache = json_encode($jsonCache);
-                }
-                fwrite($handle, $jsonCache);
-                fclose($handle);
+                file_put_contents($cache, $jsonCache);
             } else {
                 $jsonCache = file_get_contents($cache);
             }
@@ -97,12 +89,7 @@ class CurlModel
 
             if ($forceRefresh === true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $outputArr = $this->fetchMultiData($links);
-                $handle = fopen($cache, 'wb');
-                if ($handle === false) {
-                    return array();
-                }
-                fwrite($handle, json_encode($outputArr));
-                fclose($handle);
+                file_put_contents($cache, $outputArr);
             } else {
                 $jsonCache = file_get_contents($cache);
                 array_push($outputArr, json_decode($jsonCache[0], true));
