@@ -6,6 +6,8 @@
 
 namespace Anax\CurlModel;
 
+use PhpParser\Node\Expr\Cast\Array_;
+
 /**
  * Showing off a standard class with methods and properties.
  */
@@ -23,7 +25,7 @@ class CurlModel
     {
         if ($this->testMode == true) {
             $file = preg_replace("/[^[:alnum:][:space:]]/u", '', $link);
-            $cache = ANAX_INSTALL_PATH . "/test/cache/$file.cahce";
+            $cache = ANAX_INSTALL_PATH . "/test/cache/weather/$file.cahce";
             $forceRefresh = false;
             $refresh = 60 * 60 * 3;
             if (!is_file(($cache))) {
@@ -31,17 +33,9 @@ class CurlModel
                 fclose($handle);
                 $forceRefresh = true;
             }
-            if ($forceRefresh || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
-                $curl = curl_init();
-
-                curl_setopt($curl, CURLOPT_URL, $link);
-
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                $data = curl_exec($curl);
-                curl_close($curl);
-
+            if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+                $jsonCache = $this->singleFetch($link);
                 $handle = fopen($cache, 'wb');
-                $jsonCache = $data;
                 fwrite($handle, $jsonCache);
                 fclose($handle);
             } else {
@@ -49,16 +43,18 @@ class CurlModel
             }
             return json_decode($jsonCache, true);
         } else {
-            $curl = curl_init();
-
-            curl_setopt($curl, CURLOPT_URL, $link);
-
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            $data = curl_exec($curl);
-            curl_close($curl);
-
-            return json_decode($data, true);
+            return json_decode($this->singleFetch($link), true);
         }
+    }
+
+    public function singleFetch(string $link)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $link);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $data = curl_exec($curl);
+        curl_close($curl);
+        return $data;
     }
 
     /**
@@ -69,24 +65,54 @@ class CurlModel
 
     public function getMultiData(array $links)
     {
+        $outputArr = array();
+        if ($this->testMode == true) {
+            $forceRefresh = false;
+            $refresh = 60 * 60 * 3;
+            $url = $links[1];
+            $tempUrl = preg_replace("/[,][0-9]*[?]/u", "", $url);
+            $file = preg_replace("/[^[:alnum:][:space:]]/u", '', $tempUrl);
+            $cache = ANAX_INSTALL_PATH . "/test/cache/weather/multi-$file.cache";
+            if (!is_file(($cache))) {
+                $handle = fopen($cache, 'wb');
+                fclose($handle);
+                $forceRefresh = true;
+            }
+
+            if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+                $outputArr = $this->fetchMultiData($links);
+                $handle = fopen($cache, 'wb');
+                fwrite($handle, json_encode($outputArr));
+                fclose($handle);
+            } else {
+                $jsonCache = file_get_contents($cache);
+                array_push($outputArr, json_decode($jsonCache[0], true));
+            }
+        } else {
+            $outputArr = $this->fetchMultiData($links);
+        }
+        return $outputArr;
+    }
+    /*
+    * Fetch multi data from API
+    * @return array
+    */
+    private function fetchMultiData(array $links)
+    {
         $multiCurl = array();
         $outputArr = array();
         //create the multiple cURL handle
         $multiHandler = curl_multi_init();
-
-        foreach ($links as $url) {
+        foreach ($links as $link) {
             $curlHandler = curl_init();
-
             // set URL and other appropriate options
-            curl_setopt($curlHandler, CURLOPT_URL, $url);
+            curl_setopt($curlHandler, CURLOPT_URL, $link);
             curl_setopt($curlHandler, CURLOPT_HEADER, 0);
             curl_setopt($curlHandler, CURLOPT_RETURNTRANSFER, true);
-
             //add the two handles
             curl_multi_add_handle($multiHandler, $curlHandler);
             array_push($multiCurl, $curlHandler);
         }
-
         //execute the multi handle
         $active = null;
         do {
@@ -97,14 +123,11 @@ class CurlModel
         foreach ($multiCurl as $handler) {
             curl_multi_remove_handle($multiHandler, $handler);
         }
-
         curl_multi_close($multiHandler);
-
         foreach ($multiCurl as $handler) {
             $data = curl_multi_getcontent($handler);
             array_push($outputArr, json_decode($data, true));
         }
-
         return $outputArr;
     }
 
