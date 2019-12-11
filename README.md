@@ -1,5 +1,8 @@
 # anax-weather-module
 
+[![Build Status](https://travis-ci.org/pererselena/anax-weather-module.svg?branch=master)](https://travis-ci.org/pererselena/anax-weather-module)
+
+
 Table of content
 ------------------------------------
 
