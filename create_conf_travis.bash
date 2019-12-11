@@ -1,4 +1,4 @@
-cat << EOF > config/api_keyes.php
+cat << EOF > config/api_keys.php
 <?php
 
 /**
@@ -10,4 +10,3 @@ return [
     "darkSky" => "$DARKSKY",
 ];
 EOF
-echo $PWD
