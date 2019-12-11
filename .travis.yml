@@ -21,6 +21,7 @@ matrix:
 #         organization: "canax"
   
 before_script:
+    - bash create_conf_travis.bash
     - make install
 
 script:
