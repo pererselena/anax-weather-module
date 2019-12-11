@@ -10,3 +10,4 @@ return [
     "darkSky" => "$DARKSKY",
 ];
 EOF
+echo $PWD
