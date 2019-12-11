@@ -23,6 +23,10 @@ use Anax\IpGeo\IpGeo;
 class WeatherController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
+    protected $weather;
+    protected $ipGeo;
+    protected $request;
+    protected $response;
 
 
 
@@ -41,6 +45,8 @@ class WeatherController implements ContainerInjectableInterface
         // Use to initialise member variables.
         $this->weather = new Weather($this->di);
         $this->ipGeo = new IpGeo();
+        $this->request = $this->di->get("request");
+        $this->response = $this->di->get("response");
     }
 
 
@@ -57,11 +63,11 @@ class WeatherController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $title = "Väderprognos";
-        $ipAddress = $this->di->request->getGet("ip");
-        $city = $this->di->request->getGet("city");
-        $searchType = $this->di->request->getGet("search_type");
-        $lat = $this->di->request->getGet("lat");
-        $long = $this->di->request->getGet("long");
+        $ipAddress = $this->request->getGet("ip");
+        $city = $this->request->getGet("city");
+        $searchType = $this->request->getGet("search_type");
+        $lat = $this->request->getGet("lat");
+        $long = $this->request->getGet("long");
 
         if ($city) {
             $res = $this->weather->getCoords($city);
@@ -132,14 +138,14 @@ class WeatherController implements ContainerInjectableInterface
      */
     public function indexActionPost(): object
     {
-        $searchType = $this->di->request->getPost("search_type");
-        $city = $this->di->request->getPost("city");
+        $searchType = $this->request->getPost("search_type");
+        $city = $this->request->getPost("city");
         if ($city) {
-            return $this->di->response->redirect("weather?city=$city&search_type=$searchType");
+            return $this->response->redirect("weather?city=$city&search_type=$searchType");
         }
-        $ipAddress = $this->di->request->getPost("ipAddress");
+        $ipAddress = $this->request->getPost("ipAddress");
 
-        return $this->di->response->redirect("weather?ip=$ipAddress&search_type=$searchType");
+        return $this->response->redirect("weather?ip=$ipAddress&search_type=$searchType");
     }
 
     /**

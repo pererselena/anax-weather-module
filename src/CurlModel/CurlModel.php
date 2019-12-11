@@ -30,12 +30,18 @@ class CurlModel
             $refresh = 60 * 60 * 13;
             if (!is_file(($cache))) {
                 $handle = fopen($cache, 'wb');
+                if ($handle == false) {
+                    return array();
+                }
                 fclose($handle);
                 $forceRefresh = true;
             }
             if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $jsonCache = $this->singleFetch($link);
                 $handle = fopen($cache, 'wb');
+                if ($handle == false) {
+                    return array();
+                }
                 fwrite($handle, $jsonCache);
                 fclose($handle);
             } else {
@@ -50,6 +56,10 @@ class CurlModel
     public function singleFetch(string $link)
     {
         $curl = curl_init();
+
+        if ($curl == false) {
+            return array();
+        }
         curl_setopt($curl, CURLOPT_URL, $link);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $data = curl_exec($curl);
@@ -75,6 +85,9 @@ class CurlModel
             $cache = ANAX_INSTALL_PATH . "/test/cache/weather/multi-$file.cache";
             if (!is_file(($cache))) {
                 $handle = fopen($cache, 'wb');
+                if ($handle == false) {
+                    return array();
+                }
                 fclose($handle);
                 $forceRefresh = true;
             }
@@ -82,6 +95,9 @@ class CurlModel
             if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $outputArr = $this->fetchMultiData($links);
                 $handle = fopen($cache, 'wb');
+                if ($handle == false) {
+                    return array();
+                }
                 fwrite($handle, json_encode($outputArr));
                 fclose($handle);
             } else {
@@ -105,6 +121,9 @@ class CurlModel
         $multiHandler = curl_multi_init();
         foreach ($links as $link) {
             $curlHandler = curl_init();
+            if ($curlHandler == false) {
+                return array();
+            }
             // set URL and other appropriate options
             curl_setopt($curlHandler, CURLOPT_URL, $link);
             curl_setopt($curlHandler, CURLOPT_HEADER, 0);

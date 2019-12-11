@@ -15,6 +15,8 @@ class IpGeo
 {
 
     protected $apiKey;
+    protected $ipVerify;
+    protected $output;
 
     /**
      * Constructor for object.
@@ -45,7 +47,7 @@ class IpGeo
     /**
      * Get locaation.
      *
-     * @return object
+     * @return array
      */
 
     public function getLocation(string $ipAdress)
@@ -89,6 +91,9 @@ class IpGeo
     {
         $curl = curl_init();
 
+        if ($curl == false) {
+            return array();
+        }
         curl_setopt($curl, CURLOPT_URL, "http://api.ipstack.com/$ipAdress?access_key=$this->apiKey");
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

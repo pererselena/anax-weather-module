@@ -20,7 +20,8 @@ use Anax\IpVerify\IpVerify;
 class IpVerifyJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
+    protected $ipVerify;
+    protected $request;
 
 
     /**
@@ -38,7 +39,8 @@ class IpVerifyJsonController implements ContainerInjectableInterface
     public function initialize() : void
     {
         // Use to initialise member variables.
-        $this->ip = new IpVerify();
+        $this->ipVerify = new IpVerify();
+        $this->request = $this->di->get("request");
     }
 
 
@@ -53,11 +55,11 @@ class IpVerifyJsonController implements ContainerInjectableInterface
      */
     public function indexActionGet() : array
     {
-        $ipAddress = $this->di->request->getGet("ip");
+        $ipAddress = $this->request->getGet("ip");
         if ($ipAddress) {
-            $protocol = $this->ip->getIpInfo($ipAddress);
-            $isValid = $this->ip->ipVerify($ipAddress);
-            $domain = $this->ip->getDomain($ipAddress);
+            $protocol = $this->ipVerify->getIpInfo($ipAddress);
+            $isValid = $this->ipVerify->ipVerify($ipAddress);
+            $domain = $this->ipVerify->getDomain($ipAddress);
         } else {
             $protocol = "";
             $domain = "";

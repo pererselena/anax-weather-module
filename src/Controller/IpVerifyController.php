@@ -22,7 +22,10 @@ use Anax\IpVerify\IpVerify;
 class IpVerifyController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
+    protected $ipVerify;
+    protected $request;
+    protected $session;
+    protected $response;
 
 
     /**
@@ -38,7 +41,10 @@ class IpVerifyController implements ContainerInjectableInterface
     public function initialize() : void
     {
         // Use to initialise member variables.
-        $this->ip = new IpVerify();
+        $this->ipVerify = new IpVerify();
+        $this->request = $this->di->get("request");
+        $this->session = $this->di->get("session");
+        $this->response = $this->di->get("response");
     }
 
 
@@ -55,12 +61,12 @@ class IpVerifyController implements ContainerInjectableInterface
     {
         $page = $this->di->get("page");
         $title = "Ip Validering";
-        $ipAddress = $this->di->session->get("ipAddress");
+        $ipAddress = $this->session->get("ipAddress");
         if ($ipAddress) {
-            $protocol = $this->ip->getIpInfo($ipAddress);
-            $isValid = $this->ip->ipVerify($ipAddress) ? "true" : "false";
-            $domain = $this->ip->getDomain($ipAddress);
-            $this->di->session->set("ipAddress", null);
+            $protocol = $this->ipVerify->getIpInfo($ipAddress);
+            $isValid = $this->ipVerify->ipVerify($ipAddress) ? "true" : "false";
+            $domain = $this->ipVerify->getDomain($ipAddress);
+            $this->session->set("ipAddress", null);
         } else {
             $protocol = "";
             $domain = "";
@@ -87,9 +93,9 @@ class IpVerifyController implements ContainerInjectableInterface
      */
     public function indexActionPost() : object
     {
-        $ipAddress = $this->di->request->getPost("ipAddress");
-        $this->di->session->set("ipAddress", $ipAddress);
+        $ipAddress = $this->request->getPost("ipAddress");
+        $this->session->set("ipAddress", $ipAddress);
 
-        return $this->di->response->redirect("verify_ip/index");
+        return $this->response->redirect("verify_ip/index");
     }
 }

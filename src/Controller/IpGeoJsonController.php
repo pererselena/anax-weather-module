@@ -20,7 +20,8 @@ use Anax\IpGeo\IpGeo;
 class IpGeoJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
+    protected $ipGeo;
+    protected $request;
 
 
     /**
@@ -38,7 +39,8 @@ class IpGeoJsonController implements ContainerInjectableInterface
     public function initialize() : void
     {
         // Use to initialise member variables.
-        $this->ip = new IpGeo();
+        $this->ipGeo = new IpGeo();
+        $this->request = $this->di->get("request");
     }
 
 
@@ -53,9 +55,9 @@ class IpGeoJsonController implements ContainerInjectableInterface
      */
     public function indexActionGet() : array
     {
-        $ipAddress = $this->di->request->getGet("ip");
+        $ipAddress = $this->request->getGet("ip");
         if ($ipAddress) {
-            $ipGeoInfo = $this->ip->getLocation($ipAddress);
+            $ipGeoInfo = $this->ipGeo->getLocation($ipAddress);
         } else {
             $req = $this->di->get("request");
             if (!empty($req->getServer("HTTP_CLIENT_IP"))) {
@@ -65,7 +67,7 @@ class IpGeoJsonController implements ContainerInjectableInterface
             } else {
                 $ipAddress = $req->getServer("REMOTE_ADDR");
             }
-            $ipGeoInfo = $this->ip->getLocation($ipAddress);
+            $ipGeoInfo = $this->ipGeo->getLocation($ipAddress);
         }
 
 

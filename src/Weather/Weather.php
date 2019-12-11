@@ -21,6 +21,9 @@ class Weather implements ContainerInjectableInterface
     use ContainerInjectableTrait;
 
     protected $apiKey;
+    protected $ipGeo;
+    protected $output;
+    protected $curl;
 
     /**
      * Constructor for object.

@@ -21,7 +21,9 @@ use Anax\IpGeo\IpGeo;
 class WeatherJsonController implements ContainerInjectableInterface
 {
     use ContainerInjectableTrait;
-
+    protected $weather;
+    protected $ipGeo;
+    protected $request;
 
 
     /**
@@ -39,6 +41,7 @@ class WeatherJsonController implements ContainerInjectableInterface
         // Use to initialise member variables.
         $this->weather = new Weather($this->di);
         $this->ipGeo = new IpGeo();
+        $this->request = $this->di->get("request");
     }
 
 
@@ -54,11 +57,11 @@ class WeatherJsonController implements ContainerInjectableInterface
     public function indexAction(): array
     {
         $title = "Väderprognos";
-        $ipAddress = $this->di->request->getGet("ip");
-        $city = $this->di->request->getGet("city");
-        $searchType = $this->di->request->getGet("search_type");
-        $lat = $this->di->request->getGet("lat");
-        $long = $this->di->request->getGet("long");
+        $ipAddress = $this->request->getGet("ip");
+        $city = $this->request->getGet("city");
+        $searchType = $this->request->getGet("search_type");
+        $lat = $this->request->getGet("lat");
+        $long = $this->request->getGet("long");
 
         if ($city) {
             $res = $this->weather->getCoords($city);
