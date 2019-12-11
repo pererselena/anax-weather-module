@@ -30,17 +30,20 @@ class CurlModel
             $refresh = 60 * 60 * 13;
             if (!is_file(($cache))) {
                 $handle = fopen($cache, 'wb');
-                if ($handle == false) {
+                if ($handle === false) {
                     return array();
                 }
                 fclose($handle);
                 $forceRefresh = true;
             }
-            if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+            if ($forceRefresh === true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $jsonCache = $this->singleFetch($link);
                 $handle = fopen($cache, 'wb');
-                if ($handle == false) {
+                if ($handle === false) {
                     return array();
+                }
+                if (gettype($jsonCache) == array()) {
+                    $jsonCache = json_encode($jsonCache);
                 }
                 fwrite($handle, $jsonCache);
                 fclose($handle);
@@ -85,17 +88,17 @@ class CurlModel
             $cache = ANAX_INSTALL_PATH . "/test/cache/weather/multi-$file.cache";
             if (!is_file(($cache))) {
                 $handle = fopen($cache, 'wb');
-                if ($handle == false) {
+                if ($handle === false) {
                     return array();
                 }
                 fclose($handle);
                 $forceRefresh = true;
             }
 
-            if ($forceRefresh == true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
+            if ($forceRefresh === true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $outputArr = $this->fetchMultiData($links);
                 $handle = fopen($cache, 'wb');
-                if ($handle == false) {
+                if ($handle === false) {
                     return array();
                 }
                 fwrite($handle, json_encode($outputArr));
@@ -121,7 +124,7 @@ class CurlModel
         $multiHandler = curl_multi_init();
         foreach ($links as $link) {
             $curlHandler = curl_init();
-            if ($curlHandler == false) {
+            if ($curlHandler === false) {
                 return array();
             }
             // set URL and other appropriate options

@@ -60,8 +60,8 @@ class WeatherJsonController implements ContainerInjectableInterface
         $ipAddress = $this->request->getGet("ip");
         $city = $this->request->getGet("city");
         $searchType = $this->request->getGet("search_type");
-        $lat = $this->request->getGet("lat");
-        $long = $this->request->getGet("long");
+        // $lat = $this->request->getGet("lat");
+        // $long = $this->request->getGet("long");
 
         if ($city) {
             $res = $this->weather->getCoords($city);
