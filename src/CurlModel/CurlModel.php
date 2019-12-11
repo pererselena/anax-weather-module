@@ -27,7 +27,7 @@ class CurlModel
             $file = preg_replace("/[^[:alnum:][:space:]]/u", '', $link);
             $cache = ANAX_INSTALL_PATH . "/test/cache/weather/$file.cahce";
             $forceRefresh = false;
-            $refresh = 60 * 60 * 3;
+            $refresh = 60 * 60 * 13;
             if (!is_file(($cache))) {
                 $handle = fopen($cache, 'wb');
                 fclose($handle);
@@ -68,7 +68,7 @@ class CurlModel
         $outputArr = array();
         if ($this->testMode == true) {
             $forceRefresh = false;
-            $refresh = 60 * 60 * 3;
+            $refresh = 60 * 60 * 13;
             $url = $links[1];
             $tempUrl = preg_replace("/[,][0-9]*[?]/u", "", $url);
             $file = preg_replace("/[^[:alnum:][:space:]]/u", '', $tempUrl);
