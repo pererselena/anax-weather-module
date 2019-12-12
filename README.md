@@ -5,6 +5,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/build.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/build-status/master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
+[![CircleCI](https://circleci.com/gh/pererselena/anax-weather-module.svg?style=svg)](https://circleci.com/gh/pererselena/anax-weather-module)
 
 Table of content
 ------------------------------------
