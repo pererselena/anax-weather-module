@@ -6,6 +6,7 @@
 [![Build Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/build.png?b=master)](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/build-status/master)
 [![Code Intelligence Status](https://scrutinizer-ci.com/g/pererselena/anax-weather-module/badges/code-intelligence.svg?b=master)](https://scrutinizer-ci.com/code-intelligence)
 [![CircleCI](https://circleci.com/gh/pererselena/anax-weather-module.svg?style=svg)](https://circleci.com/gh/pererselena/anax-weather-module)
+[![Maintainability](https://api.codeclimate.com/v1/badges/accd216204ade1a220af/maintainability)](https://codeclimate.com/github/pererselena/anax-weather-module/maintainability)
 
 Table of content
 ------------------------------------
