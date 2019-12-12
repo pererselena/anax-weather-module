@@ -92,7 +92,7 @@ class CurlModel
 
             if ($forceRefresh === true || ((time() - filectime($cache)) > ($refresh) || 0 == filesize($cache))) {
                 $outputArr = $this->fetchMultiData($links);
-                file_put_contents($cache, $outputArr);
+                file_put_contents($cache, json_encode($outputArr));
             } else {
                 $jsonCache = file_get_contents($cache);
                 $jsonCache = json_decode($jsonCache, true)[1];
